@@ -45,6 +45,14 @@ app.use('/api/meetings', meetingRoutes)
 
 app.get('/', (req, res) => res.send('Meeting Scheduler API running'))
 
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack)
+  res.status(err.status || 500).json({
+    message: err.message || 'Internal Server Error',
+  })
+})
+
 httpServer.listen(process.env.PORT, () => {
   console.log(`Server running on port ${process.env.PORT}`)
 })
